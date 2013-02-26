@@ -1,0 +1,21 @@
+{
+  "name": "httperrors",
+  "description": "A module with a bunch of pre-defined HTTP errors",
+  "keywords": [
+    "javascript",
+    "http",
+    "errors",
+  ],
+  "main" : "HTTPErrors.js",
+  "version": "0.0.1",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mercmobily/HTTPErrors.git"
+  },
+  "author": {
+    "name": "Tony Mobily"
+  },
+  "dependencies": {
+  }
+}
