@@ -58,12 +58,12 @@ e['NotImplementedError'] = function( message ){
 }
 util.inherits(e['NotImplementedError'], Error);
 
-e['RuntimeError'] = function( message, originalErr ){
+e['ServiceUnavailableError'] = function( message, originalErr ){
   this.httpError = 503;
-  this.message = message || "Runtime error";
-  this.name = 'RuntimeError';
+  this.message = message || "Service unavailable";
+  this.name = 'ServiceUnavailableError';
   this.originalError = originalErr;
 }
-util.inherits(e['RuntimeError'], Error);
+util.inherits(e['ServiceUnavailableError'], Error);
 
 

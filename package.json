@@ -1,13 +1,13 @@
 {
-  "name": "httperrors",
+  "name": "resthttperrors",
   "description": "A module with a bunch of pre-defined HTTP errors",
   "keywords": [
     "javascript",
     "http",
-    "errors",
+    "errors"
   ],
   "main" : "HTTPErrors.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "repository": {
     "type": "git",

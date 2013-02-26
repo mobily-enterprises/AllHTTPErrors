@@ -84,16 +84,16 @@ An error when a client asks to PUT when they shouldn't be. Nothing fancy here.
     util.inherits(e['NotImplementedError'], Error);
 
 
-## RuntimeError (503)
+## ServiceUnavailableError (503)
 
-Another error often known to lay people. When an application bombs, this is what should be triggered. The database server connection might have failed, or a database lookup that _ought to_ have worked failed. The "trick" is to 1) Create a new RuntimeError 2) Create the RuntimeError passing it a not-so-scary message and the `originalError` to it 3) Give the user a not-so-scary message 4) Log the original error in the application, so that you can see what _actually_ happened. Here's the code:
+Another error often known to lay people. When an application bombs, this is what should be triggered. The database server connection might have failed, or a database lookup that _ought to_ have worked failed. The "trick" is to 1) Create a new ServiceUnavailableError 2) Create the ServiceUnavailableError passing it a not-so-scary message and the `originalError` to it 3) Give the user a not-so-scary message 4) Log the original error in the application, so that you can see what _actually_ happened. Here's the code:
 
-    e['RuntimeError'] = function( message, originalError ){
+    e['ServiceUnavailableError'] = function( message, originalError ){
       this.httpError = 503;
-      this.message = message || "Runtime error";
-      this.name = 'RuntimeError';
+      this.message = message || "Service unavailable";
+      this.name = 'ServiceUnavailable';
       this.originalError = originalError;
     }
-    util.inherits(e['RuntimeError'], Error);
+    util.inherits(e['ServiceUnavailable'], Error);
 
 
