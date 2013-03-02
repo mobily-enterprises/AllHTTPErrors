@@ -2,68 +2,51 @@
 var 
   dummy
 , util = require('util')
+, http = require('http')
 ;
 
 var e = {};
 exports = module.exports = e;
 
-e['BadRequestError'] = function( message, errorFields ){
-  this.httpError = 400;
-  this.message = message || 'Bad request';
-  this.name = 'BadRequestError';
-  this.errorFields = errorFields;
-}
-util.inherits(e['BadRequestError'], Error);
+var message, errorName;
+for( var httpError in http.STATUS_CODES ){
 
-e['UnauthorizedError'] = function( message ){
-  this.httpError = 401;
-  this.message = message || 'Login necessary to access the requested resource';
-  this.name = 'UnauthorizedError';
-}
-util.inherits(e['UnauthorizedError'], Error);
+  // Extrapolate the error message from the module
+  message = http.STATUS_CODES[ httpError ];
 
-e['ForbiddenError'] = function( message ){
-  this.httpError = 403;
-  this.message = message || 'Access to resource denied';
-  this.name = 'ForbiddenError';
-}
-util.inherits(e['ForbiddenError'], Error);
+  // Work out the "machine's" error name ('Not found' => 'NotFoundError' )
+  errorName = message.replace( /\b./g, function(a){ return a.toUpperCase(); }).replace( /[^a-zA-Z]/g, '') + 'Error';
 
-e['NotFoundError'] = function( message ){
-  this.httpError = 404;
-  this.message = message || 'Resource not found';
-  this.name = 'NotFoundError';
-}
-util.inherits(e['NotFoundError'], Error);
- 
-e['PreconditionFailedError'] = function( message ){
-  this.httpError = 412;
-  this.message = message || 'Precondition failed';
-  this.name = 'PreconditionFailedError';
-}
-util.inherits(e['PreconditionFailedError'], Error);
+  // Make up the constructur
+  e[errorName] = function( parameter, constr ){
 
-e['ValidationError'] = function( message, errorFields ){
-  this.httpError = 422;
-  this.message = message || 'Validation problem';
-  this.name = 'ValidationError';
-  this.errorFields = errorFields;
-}
-util.inherits(e['ValidationError'], Error);
+    // Add stack trace information to this error
+    Error.captureStackTrace(this, constr || this)
+        
+    // Make up the p object depending on the parameter
+    // This ensures that you can use the shorthand version passing just a string
+    if( typeof( parameter) === 'string' ){
+      var p = { message: parameter };
+    } else if( typeof( parameter)  === 'object' ){
+      p = parameter;
+    } else {
+      throw( new Error("Parameter needs to be string or object to construct " + errorName ) );
+    }
 
-e['NotImplementedError'] = function( message ){
-  this.httpError = 501;
-  this.message = message || "Method not implemented";
-  this.name = 'NotImplementedError';
-}
-util.inherits(e['NotImplementedError'], Error);
+    // Initialised object according to what was passed
+    for( var k in p ){
+      this.k = p[ k ];
+    }
 
-e['ServiceUnavailableError'] = function( message, originalErr ){
-  this.httpError = 503;
-  this.message = message || "Service unavailable";
-  this.name = 'ServiceUnavailableError';
-  this.originalError = originalErr;
-}
-util.inherits(e['ServiceUnavailableError'], Error);
+    // Sets the "message" variable
+    if( typeof( this.message ) === 'undefined' ){
+      this.message = message;
+    }
 
+  }
+
+  util.inherits ( e[ errorName ], Error );
+  e[ errorName ].prototype.name = errorName;
+
+}
 
