@@ -1,5 +1,5 @@
 {
-  "name": "resthttperrors",
+  "name": "allhttperrors",
   "description": "A module to create flexible, powerful Error objects based on HTTP responses",
   "keywords": [
     "javascript",
