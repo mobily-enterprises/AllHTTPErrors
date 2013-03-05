@@ -102,6 +102,3 @@ Here is a full list of error constructors defined by the module:
  * [511] `NetworkAuthenticationRequiredError`: Network Authentication Required
 
 
-# How it works
-
-
