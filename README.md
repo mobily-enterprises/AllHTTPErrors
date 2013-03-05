@@ -6,19 +6,43 @@ How to use it:
 
     var errors = require( 'allhttperrors' );
 
+    var e = new errors.UnauthorizedError();
+    console.log( e.httpError ); // 401
+
     // ...
-    next( new errors.NotFoundError() )
+    next( new errors.NotFoundError() );
     // ... or:
-    next( new errors.NotFoundError("The file specified could not be found") )
+    next( new errors.NotFoundError("The file specified could not be found") );
     // ... or:
-    next( new errors.NotFoundError( { message: "The file specified could not be found", extraInfo: { fileName: 'someFile' } } ) )
+    next( new errors.NotFoundError( 
+      { message: "The file specified could not be found", extraInfo: { fileName: 'someFile' } }
+    ) );
 
 The error names are based on the default messages set by nodejs, with strange characters stripped out and capitalisation added. See the bottom of this file for the full list of errors constructors created.
 
+By default, each error constructor sets:
 
+* `this.message`; if no parameter is passed, it's the name of the error. If a string is passed, then `this.message` will be assigned to it; if an object is passed, then this.message will be assigned `passedObject.message`.
+
+* `this.httpError`; automatically set depending on the HTTP error
+
+# The constructor
+
+By looking at the code above, you probably noticed that the last form of constucting an error shows that the constructor's parameters are very flexible.
+The constructor can be called in three forms:
+
+ * `NotFoundError()`. This will create an error of type `NotFoundError`, where `this.message` is "Not found".
+ * `NotFoundError( 'Custom message' )`. This will create an error of type `NotFoundError`, where `this.message` is "Custom Message".
+ * `NotFoundError( { message: "Custom message", filename: 'log.txt' } )`. This will create an error of type `NotFoundError`, where `this.message` is "Custom Message", `this.fileName` log.txt `10`. Basically, the passed object will be mixed into the created object.
+
+If you pass an `passedObject` to the constructor as a parameter, then every attribute of `passedObject` will be mixed into the object itself. This is really handy if you want to attach extra information to your error objects. If you are using express, your error handler might look into the `err` variable and use the extra information.
+
+_Note: Only the first parameter is standard in the creation of the Error object. In Firefox, it is `new Error([message[, fileName[, lineNumber]]])`, in IE it is `new Error([number[, description]])`, in Chrome, `new Error(description, constr)`. I made the constructor as standard as possible: new Error("Message"), the basic use case, works._
 
 
 # The full list
+
+Here is a full list of error constructors defined by the module:
 
  * [100] `ContinueError`: Continue
  * [101] `SwitchingProtocolsError`: Switching Protocols
