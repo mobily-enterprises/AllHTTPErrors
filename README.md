@@ -37,7 +37,7 @@ The constructor can be called in three forms:
 
 If you pass an `passedObject` to the constructor as a parameter, then every attribute of `passedObject` will be mixed into the object itself. This is really handy if you want to attach extra information to your error objects. If you are using express, your error handler might look into the `err` variable and use the extra information.
 
-_Note: Only the first parameter is standard in the creation of the Error object. In Firefox, it is `new Error([message[, fileName[, lineNumber]]])`, in IE it is `new Error([number[, description]])`, in Chrome, `new Error(description, constr)`. I made the constructor as standard as possible: new Error("Message"), the basic use case, works._
+_Note: Only the first parameter is standard in the creation of the Error object. In Firefox, it is `new Error([message[, fileName[, lineNumber]]])`, in IE it is `new Error([number[, description]])`, in Chrome, `new Error(description, constr)`. I made the constructor as standard as possible: `new Error("Message")`, the basic use case, works._
 
 
 # The full list
