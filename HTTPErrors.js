@@ -18,6 +18,8 @@ Object.keys( http.STATUS_CODES).forEach( function(httpError){
   // Work out the "machine's" error name ('Not found' => 'NotFoundError' )
   errorName = message.replace( /\b./g, function(a){ return a.toUpperCase(); }).replace( /[^a-zA-Z]/g, '') + 'Error';
 
+  console.log(' * [' + httpError + '] ' + '`'+errorName + "`: " + message );
+
   // Make up the constructur
   e[errorName] = function( parameter, constr ){
 

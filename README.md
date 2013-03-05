@@ -1,99 +1,83 @@
 HTTPErrors
 ==========
 
-This is a simple bunch of HTTP errors, which include handy properties to know what they are and what their status code should be.
+This is a simple module to create HTTP error constructor based on Node's `http.STATUS_CODES` information.
+How to use it:
 
-## BadRequestError (400)
+    var errors = require( 'allhttperrors' );
 
-This error is triggered when the URL has a problem. In web applications, this is often triggered when the ID of a resource in an URL is not in the right format. This is why its constructor has errorFields, as well as the message:
+    // ...
+    next( new errors.NotFoundError() )
+    // ... or:
+    next( new errors.NotFoundError("The file specified could not be found") )
+    // ... or:
+    next( new errors.NotFoundError( { message: "The file specified could not be found", extraInfo: { fileName: 'someFile' } } ) )
 
-    e['BadRequestError'] = function( message, errorFields ){
-      this.httpError = 400;
-      this.message = message || 'Bad request';
-      this.name = 'BadRequestError';
-      this.errorFields = errorFields;
-    }
-    util.inherits(e['BadRequestError'], Error);
-
-## UnauthorizedError (401)
-
-This error is used when a user needs to login in order to access a resource. Nothing fancy here:
-
-    e['UnauthorizedError'] = function( message ){
-      this.httpError = 401;
-      this.message = message || 'Login necessary to access the requested resource';
-      this.name = 'UnauthorizedError';
-    }
-util.inherits(e['UnauthorizedError'], Error);
-
-## ForbiddenError (403)
-
-This error is used when even though a user may be logged in, they might not have the right permissions to access a specific resource. Nothing fancy here:
-
-    e['ForbiddenError'] = function( message ){
-      this.httpError = 403;
-      this.message = message || 'Access to resource denied';
-      this.name = 'ForbiddenError';
-    }
-util.inherits(e['ForbiddenError'], Error);
-
-## NotFoundError (404)
-
-We all know this one. One of the few errors for which even non-developers know its code...
-
-e['NotFoundError'] = function( message ){
-  this.httpError = 404;
-  this.message = message || 'Resource not found';
-  this.name = 'NotFoundError';
-}
-util.inherits(e['NotFoundError'], Error);
- 
-
-## PreconditionFailedError (404)
-
-This error is triggered when a precondition is not met. For example, the user has sent the header `if-match: *` and has requested a PUT on a resource that doesn't exist. Nothing fancy:
-
-    e['PreconditionFailedError'] = function( message ){
-      this.httpError = 412;
-      this.message = message || 'Precondition failed';
-      this.name = 'PreconditionFailedError';
-    }
-    util.inherits(e['PreconditionFailedError'], Error);
-
-## ValidationError (422)
-
-A very common error. It happens when a field in an online form has a field that doesn't pass validation. The constructor has the message, as well as a second field `errorFields` which is an object in the format `{ field: "Error message", anotherField: "Another error message" }`. The server, when this error happens, is meant to send something back to the client probably highlighting the affected fields with the message
-
-    e['ValidationError'] = function( message, errorFields ){
-      this.httpError = 422;
-      this.message = message || 'Validation problem';
-      this.name = 'ValidationError';
-      this.errorFields = errorFields;
-    }
-    util.inherits(e['ValidationError'], Error);
-
-## NotImplementedError (501)
-
-An error when a client asks to PUT when they shouldn't be. Nothing fancy here.
-
-    e['NotImplementedError'] = function( message ){
-      this.httpError = 501;
-      this.message = message || "Method not implemented";
-      this.name = 'NotImplementedError';
-    }
-    util.inherits(e['NotImplementedError'], Error);
+The error names are based on the default messages set by nodejs, with strange characters stripped out and capitalisation added. See the bottom of this file for the full list of errors constructors created.
 
 
-## ServiceUnavailableError (503)
 
-Another error often known to lay people. When an application bombs, this is what should be triggered. The database server connection might have failed, or a database lookup that _ought to_ have worked failed. The "trick" is to 1) Create a new ServiceUnavailableError 2) Create the ServiceUnavailableError passing it a not-so-scary message and the `originalError` to it 3) Give the user a not-so-scary message 4) Log the original error in the application, so that you can see what _actually_ happened. Here's the code:
 
-    e['ServiceUnavailableError'] = function( message, originalError ){
-      this.httpError = 503;
-      this.message = message || "Service unavailable";
-      this.name = 'ServiceUnavailable';
-      this.originalError = originalError;
-    }
-    util.inherits(e['ServiceUnavailable'], Error);
+# The full list
+
+ * [100] `ContinueError`: Continue
+ * [101] `SwitchingProtocolsError`: Switching Protocols
+ * [102] `ProcessingError`: Processing
+ * [200] `OKError`: OK
+ * [201] `CreatedError`: Created
+ * [202] `AcceptedError`: Accepted
+ * [203] `NonAuthoritativeInformationError`: Non-Authoritative Information
+ * [204] `NoContentError`: No Content
+ * [205] `ResetContentError`: Reset Content
+ * [206] `PartialContentError`: Partial Content
+ * [207] `MultiStatusError`: Multi-Status
+ * [300] `MultipleChoicesError`: Multiple Choices
+ * [301] `MovedPermanentlyError`: Moved Permanently
+ * [302] `MovedTemporarilyError`: Moved Temporarily
+ * [303] `SeeOtherError`: See Other
+ * [304] `NotModifiedError`: Not Modified
+ * [305] `UseProxyError`: Use Proxy
+ * [307] `TemporaryRedirectError`: Temporary Redirect
+ * [400] `BadRequestError`: Bad Request
+ * [401] `UnauthorizedError`: Unauthorized
+ * [402] `PaymentRequiredError`: Payment Required
+ * [403] `ForbiddenError`: Forbidden
+ * [404] `NotFoundError`: Not Found
+ * [405] `MethodNotAllowedError`: Method Not Allowed
+ * [406] `NotAcceptableError`: Not Acceptable
+ * [407] `ProxyAuthenticationRequiredError`: Proxy Authentication Required
+ * [408] `RequestTimeOutError`: Request Time-out
+ * [409] `ConflictError`: Conflict
+ * [410] `GoneError`: Gone
+ * [411] `LengthRequiredError`: Length Required
+ * [412] `PreconditionFailedError`: Precondition Failed
+ * [413] `RequestEntityTooLargeError`: Request Entity Too Large
+ * [414] `RequestURITooLargeError`: Request-URI Too Large
+ * [415] `UnsupportedMediaTypeError`: Unsupported Media Type
+ * [416] `RequestedRangeNotSatisfiableError`: Requested Range Not Satisfiable
+ * [417] `ExpectationFailedError`: Expectation Failed
+ * [418] `IMATeapotError`: I'm a teapot
+ * [422] `UnprocessableEntityError`: Unprocessable Entity
+ * [423] `LockedError`: Locked
+ * [424] `FailedDependencyError`: Failed Dependency
+ * [425] `UnorderedCollectionError`: Unordered Collection
+ * [426] `UpgradeRequiredError`: Upgrade Required
+ * [428] `PreconditionRequiredError`: Precondition Required
+ * [429] `TooManyRequestsError`: Too Many Requests
+ * [431] `RequestHeaderFieldsTooLargeError`: Request Header Fields Too Large
+ * [500] `InternalServerErrorError`: Internal Server Error
+ * [501] `NotImplementedError`: Not Implemented
+ * [502] `BadGatewayError`: Bad Gateway
+ * [503] `ServiceUnavailableError`: Service Unavailable
+ * [504] `GatewayTimeOutError`: Gateway Time-out
+ * [505] `HTTPVersionNotSupportedError`: HTTP Version not supported
+ * [506] `VariantAlsoNegotiatesError`: Variant Also Negotiates
+ * [507] `InsufficientStorageError`: Insufficient Storage
+ * [509] `BandwidthLimitExceededError`: Bandwidth Limit Exceeded
+ * [510] `NotExtendedError`: Not Extended
+ * [511] `NetworkAuthenticationRequiredError`: Network Authentication Required
+
+
+# How it works
 
 
