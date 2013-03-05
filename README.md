@@ -33,7 +33,7 @@ The constructor can be called in three forms:
 
  * `NotFoundError()`. This will create an error of type `NotFoundError`, where `this.message` is "Not found".
  * `NotFoundError( 'Custom message' )`. This will create an error of type `NotFoundError`, where `this.message` is "Custom Message".
- * `NotFoundError( { message: "Custom message", filename: 'log.txt' } )`. This will create an error of type `NotFoundError`, where `this.message` is "Custom Message", `this.fileName` log.txt `10`. Basically, the passed object will be mixed into the created object.
+ * `NotFoundError( { message: "Custom message", filename: 'log.txt' } )`. This will create an error of type `NotFoundError`, where `this.message` is "Custom Message" and `this.fileName` is `log.txt`.  Basically, the passed object will be mixed into the created object.
 
 If you pass an `passedObject` to the constructor as a parameter, then every attribute of `passedObject` will be mixed into the object itself. This is really handy if you want to attach extra information to your error objects. If you are using express, your error handler might look into the `err` variable and use the extra information.
 
