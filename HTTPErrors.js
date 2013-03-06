@@ -44,8 +44,8 @@ Object.keys( http.STATUS_CODES).forEach( function(httpError){
       this[ k ] = p[ k ];
     }
  
-    if( typeof( p.message ) === 'undefined' ){
-      this.message = message;
+    if( typeof( p.message ) !== 'undefined' ){
+      this.message = p.message;
     }
 
     this.httpError = httpError;
