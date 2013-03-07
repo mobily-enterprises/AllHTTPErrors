@@ -6,8 +6,8 @@
     "http",
     "errors"
   ],
-  "main" : "HTTPErrors.js",
-  "version": "0.0.8",
+  "main": "HTTPErrors.js",
+  "version": "0.0.9",
   "private": false,
   "repository": {
     "type": "git",
@@ -16,6 +16,5 @@
   "author": {
     "name": "Tony Mobily"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
