@@ -44,8 +44,12 @@ Object.keys( http.STATUS_CODES).forEach( function(httpError){
       this[ k ] = p[ k ];
     }
  
+    // Sets the message: from the error's default, or from what the user passed
+    // (User message has priority)
     if( typeof( p.message ) !== 'undefined' ){
       this.message = p.message;
+    } else {
+      this.message = message;
     }
 
     this.httpError = httpError;
