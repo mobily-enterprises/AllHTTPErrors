@@ -44,6 +44,7 @@ _Note: Only the first parameter is standard in the creation of the Error object.
 
 Here is a full list of error constructors defined by the module.
 ***NOTE:***: I realise that not all of them are errors. However, the main goal of this module is to create errors around HTTP statuses. I could:
+
  * either rename it into `allhttpstatuses` (but that wouldn't really highlight the purpose of the module, that is to create _errors_)
  * or take out the statuses that aren't errors (but that would imply taking out 100, all 200, but also take out 304 which isn't technically an error... do you see the issue here?)
 
