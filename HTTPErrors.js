@@ -13,6 +13,21 @@ var
 , http = require('http')
 ;
 
+/* TODO: Read, and probably apply, this: 
+
+//http://stackoverflow.com/questions/17530782/extending-javascript-errors-exceptions
+
+function MyError(message) {
+    var e = new Error(message);
+    // ...apply your enhancements to `e`
+    return e;
+}
+
+Or maybe re-enable the stacktrace that is now commented out
+
+*/
+
+
 var e = {};
 exports = module.exports = e;
 
@@ -29,7 +44,7 @@ Object.keys( http.STATUS_CODES).forEach( function(httpError){
   // console.log(' * [' + httpError + '] ' + '`'+errorName + "`: " + message );
 
   // Make up the constructur
-  e[errorName] = function( parameter, constr ){
+  e[ errorName ] = function( parameter, constr ){
 
     // Add stack trace information to this error
     // Error.captureStackTrace(this, constr || this)
@@ -61,6 +76,7 @@ Object.keys( http.STATUS_CODES).forEach( function(httpError){
     }
 
     this.httpError = httpError;
+    this.stack = (new Error()).stack;
 
   }
 
