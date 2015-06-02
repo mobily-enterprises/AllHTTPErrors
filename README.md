@@ -14,7 +14,7 @@ How to use it:
     // ... or:
     next( new errors.NotFoundError("The file specified could not be found") );
     // ... or:
-    next( new errors.NotFoundError( 
+    next( new errors.NotFoundError(
       { message: "The file specified could not be found", extraInfo: { fileName: 'someFile' } }
     ) );
 
@@ -106,5 +106,3 @@ I won't do either of them, as the goal of this module is to _create javascript e
  * [509] `BandwidthLimitExceededError`: Bandwidth Limit Exceeded
  * [510] `NotExtendedError`: Not Extended
  * [511] `NetworkAuthenticationRequiredError`: Network Authentication Required
-
-
