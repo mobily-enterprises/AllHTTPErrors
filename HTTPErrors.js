@@ -69,7 +69,7 @@ Object.keys(http.STATUS_CODES).forEach(function (httpError) {
       this.message = message
     }
 
-    this.httpError = httpError
+    this.httpError = this.status = httpError
     this.stack = (new Error()).stack
   }
 
